@@ -18,11 +18,29 @@ export default class ProductDetails {
   }
 
   addProductToCart() {
-    const cart = getLocalStorage('so-cart') || [];
-    cart.push(this.product);
-    setLocalStorage('so-cart', cart);
-  }
+  const cart = getLocalStorage('so-cart') || [];
+  cart.push(this.product);
+  setLocalStorage('so-cart', cart);
 
+  const cartIcon = document.querySelector('.cart');
+
+  if (cartIcon) {
+    cartIcon.classList.remove('cart-animate');
+
+    // Restart the animation if another item is added
+    void cartIcon.offsetWidth;
+
+    cartIcon.classList.add('cart-animate');
+
+    cartIcon.addEventListener(
+      'animationend',
+      () => {
+        cartIcon.classList.remove('cart-animate');
+      },
+      { once: true }
+    );
+  }
+}
   renderProductDetails() {
     const productDetail = document.querySelector('.product-detail');
 
